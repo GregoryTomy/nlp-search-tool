@@ -5,9 +5,9 @@ import numpy as np
 from collections import Counter
 from preprocessing_1 import load_data
 
-DATA_PATH = "../data/preprocessed.json"  # preprocessed data from 1
-CORPUS_VOCAB_PATH = "../data/corpus_vocab.json"
-TF_IDF_PATH = "../data/tf_idf_vectors.json"
+DATA_PATH = "data/preprocessed.json"  # preprocessed data from 1
+CORPUS_VOCAB_PATH = "data/corpus_vocab.json"
+TF_IDF_PATH = "data/tf_idf_vectors.json"
 
 
 def load_and_process_data(filepath: str) -> Tuple[List[Dict], List[List]]:
