@@ -1,6 +1,6 @@
 # %%
 import json
-from typing import List
+from typing import List, Dict
 import spacy
 import logging
 
@@ -32,14 +32,14 @@ def load_spacy_model(model_name: str = "en_core_web_sm") -> spacy.language.Langu
     return nlp
 
 
-def load_data(path_to_data: str) -> List[dict]:
+def load_data(path_to_data: str) -> List[Dict]:
     """Load JSON data from file path.
 
     Args:
         path_to_data (str): The path to the JSON file containing the data.
 
     Returns:
-        List[dict]: A list of dictionaries containting the loaded data.
+        List[Dict]: A list of dictionaries containting the loaded data.
     """
     logger.info(f"Loading data from {path_to_data}")
     try:
@@ -77,24 +77,31 @@ def tokenize_text(text: str, spacy_model: spacy.language.Language) -> List[str]:
 
 
 def tokenize_documents(
-    documents: List[dict], spacy_model: spacy.language.Language
-) -> List[dict]:
+    documents: List[Dict], spacy_model: spacy.language.Language
+) -> List[Dict]:
     """Tokenize and lemmatize a corpus of documents.
 
     Args:
-        documents (List[dict]): A list of dictionaries, each containing a 'text' field to tokenize.
+        documents (List[Dict]): A list of dictionaries, each containing a 'text' field to tokenize.
         spacy_model (spacy.language.Language): SpaCy language model to use.
 
     Returns:
-        List[dict]: The input list of dictionaries with an added 'tokenized_text' field with tokens.
+        List[Dict]: The input list of dictionaries with an added 'tokenized_text' field with tokens.
     """
     for document in documents:
+        # TODO: Update code to process in batches.
         document["tokenized_text"] = tokenize_text(document["text"], spacy_model)
 
     return documents
 
 
-def save_preprocessed_documents(documents: List[dict], save_path: str) -> None:
+def save_preprocessed_documents(documents: List[Dict], save_path: str) -> None:
+    """Save the preprocessed documents as JSON.
+
+    Args:
+        documents (List[Dict]): preprocessed documents.
+        save_path (str): path to save the preprocessed documents.
+    """
     try:
         with open(save_path, "w") as f:
             json.dump(documents, f)
@@ -107,10 +114,10 @@ def save_preprocessed_documents(documents: List[dict], save_path: str) -> None:
 if __name__ == "__main__":
     logger.info("Starting preprocessing main execution...")
     nlp = load_spacy_model()
-    documents = load_data(path_to_data=DATA_PATH)
+    doc = load_data(path_to_data=DATA_PATH)
 
-    logger.info(f"Preprocessing {len(documents)} documents.")
-    documents_preprocessed = tokenize_documents(documents, nlp)
+    logger.info(f"Preprocessing {len(doc)} documents.")
+    documents_preprocessed = tokenize_documents(doc, nlp)
 
     logger.debug(documents_preprocessed[:2])
     logger.info("Document preprocessing completed.")
