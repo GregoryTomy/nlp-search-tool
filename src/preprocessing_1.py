@@ -8,6 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 DATA_PATH = "data/data.json"
+SAVE_PATH = "data/preprocessed.json"
 
 
 def load_spacy_model(model_name: str = "en_core_web_sm") -> spacy.language.Language:
@@ -93,6 +94,16 @@ def tokenize_documents(
     return documents
 
 
+def save_preprocessed_documents(documents: List[dict], save_path: str) -> None:
+    try:
+        with open(save_path, "w") as f:
+            json.dump(documents, f)
+        logger.info(f"Preprocessed documents saved to {save_path}")
+    except Exception as e:
+        logger.error(f"Failed to save documents to {save_path}: {e}")
+        raise
+
+
 if __name__ == "__main__":
     logger.info("Starting preprocessing main execution...")
     nlp = load_spacy_model()
@@ -103,3 +114,5 @@ if __name__ == "__main__":
 
     logger.debug(documents_preprocessed[:2])
     logger.info("Document preprocessing completed.")
+
+    save_preprocessed_documents(documents_preprocessed, SAVE_PATH)
