@@ -10,6 +10,7 @@ The CDC holds vast amounts of unstructured text data on past pandemics, which is
 
 In this phase, we will explore essential methods for unstructured text search, including:
 
-• **TF-IDF Search**: Assessing the effectiveness of Term Frequency-Inverse Document Frequency (TF-IDF) for retrieving relevant documents from the database.
+• **TF-IDF Search**: Assessed the effectiveness of Term Frequency-Inverse Document Frequency (TF-IDF) for retrieving relevant documents from the database.
+- Implemeted TF-IDF search algorithm using `en_core_web_sm` language model from `spaCy`. However, TF-IDF based search can be highly inefficient for very large documents sets since we need to compute the similarities between the query and each document in the database.
 
 •**Inverted Index**: Implementing and evaluating an inverted index to facilitate fast text search.
