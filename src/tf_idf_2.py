@@ -70,7 +70,10 @@ def get_document_frequencies(token_lists: List[List]) -> Counter:
 
 
 def get_inverse_document_frequency(
-    corpus_size: int, document_frequencies: Counter, corpus_vocabulary: List
+    corpus_size: int,
+    document_frequencies: Counter,
+    corpus_vocabulary: List,
+    file_path: str = "data/idf_values.json",
 ) -> Dict[str, float]:
     """Calculate the inverse document frequency (IDF) for each token in the vocabulary.
 
@@ -83,10 +86,14 @@ def get_inverse_document_frequency(
         Dict[str, float]: A dictionary with tokens as keys and their IDF as values.
     """
     logger.info("Calculating inverse document frequency for each token.")
-    return {
+    idf_dict = {
         token: np.log(corpus_size / document_frequencies[token])
         for token in corpus_vocabulary
     }
+
+    save_to_file(idf_dict, file_path)
+
+    return idf_dict
 
 
 def calculate_tf_idf_vector(
